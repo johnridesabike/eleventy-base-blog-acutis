@@ -1,12 +1,50 @@
 # eleventy-base-blog v8
 
-A starter repository showing how to build a blog with the [Eleventy](https://www.11ty.dev/) site generator (using the [v2.0 beta release](https://www.11ty.dev/blog/eleventy-v2-beta/)).
+A starter repository showing how to build a blog with the [Eleventy](https://www.11ty.dev/) site generator (using the [v2.0 release](https://www.11ty.dev/blog/eleventy-v2/)).
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/802669dd-d5f8-4d49-963d-6d57b257c2a2/deploy-status)](https://app.netlify.com/sites/eleventy-base-blog/deploys)
 
+## Getting Started
+
+1. Clone this Repository
+
+```
+git clone https://github.com/11ty/eleventy-base-blog.git my-blog-name
+```
+
+2. Navigate to the directory
+
+```
+cd my-blog-name
+```
+
+3. Have a look at `eleventy.config.js` to see if you want to configure any Eleventy options differently.
+4. Install dependencies
+
+```
+npm install
+```
+
+5. Edit `_data/metadata.js` to change the site data.
+6. Run Eleventy
+
+Generate a production-ready build:
+
+```
+npx @11ty/eleventy
+```
+
+Or build and host locally on a local development server:
+
+```
+npx @11ty/eleventy --serve
+```
+
+Or you can run [debug mode](https://www.11ty.dev/docs/debugging/) to see all the internals.
+
 ## Features
 
-- Using [Eleventy v2.0](https://www.11ty.dev/blog/eleventy-v2-beta/) with zero-JavaScript output.
+- Using [Eleventy v2.0](https://www.11ty.dev/blog/eleventy-v2/) with zero-JavaScript output.
 	- Content is exclusively pre-rendered (this is a static site).
 	- Can easily [deploy to a subfolder without changing any content](https://www.11ty.dev/docs/plugins/html-base/)
 	- All URLs are decoupled from the content’s location on the file system.
@@ -54,57 +92,6 @@ Deploy this Eleventy site in just a few clicks on these services:
 - If you run Eleventy locally you can drag your `_site` folder to [`drop.netlify.com`](https://drop.netlify.com/) to upload it without using `git`.
 - [Get your own Eleventy web site on Vercel](https://vercel.com/import/project?template=11ty%2Feleventy-base-blog)
 - Read more about [Deploying an Eleventy project](https://www.11ty.dev/docs/deployment/) to the web.
-
-## Getting Started
-
-### 1. Clone this Repository
-
-```
-git clone https://github.com/11ty/eleventy-base-blog.git my-blog-name
-```
-
-### 2. Navigate to the directory
-
-```
-cd my-blog-name
-```
-
-Specifically have a look at `eleventy.config.js` to see if you want to configure any Eleventy options differently.
-
-### 3. Install dependencies
-
-```
-npm install
-```
-
-### 4. Edit `_data/metadata.js`
-
-### 5. Run Eleventy
-
-Generate a production-ready build:
-
-```
-npx @11ty/eleventy
-```
-
-Or build and host locally on a local development server:
-
-```
-npx @11ty/eleventy --serve
-```
-
-Or in [debug mode](https://www.11ty.dev/docs/debugging/) to see all the internals:
-
-```
-# Mac OS/Linux/etc
-DEBUG=Eleventy* npx @11ty/eleventy
-
-# Windows
-set DEBUG=Eleventy* & npx @11ty/eleventy
-
-# Windows (Powershell in VS Code)
-$env:DEBUG="Eleventy*"; npx @11ty/eleventy
-```
 
 ### Implementation Notes
 
