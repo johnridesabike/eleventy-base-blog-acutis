@@ -1,5 +1,5 @@
 module.exports = {
-	"title": "Eleventy Base Blog v8",
+	"title": "Eleventy Base Blog v8, Acutis Edition",
 	"url": "https://example.com/",
 	"language": "en",
 	"timeZone": "utc",
