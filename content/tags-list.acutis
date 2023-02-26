@@ -1,0 +1,17 @@
+{% LayoutMain metadata collections safeUrl eleventy ~%}
+
+<h1>Tags</h1>
+
+<ul>
+{%~ match collections with {allTags} %}
+{%~ map allTags with tag %}
+	<li>
+		<a href="/tags/{% Slugify %}{{ tag }}{% /Slugify %}" class="post-tag">
+			{{ tag }}
+		</a>
+	</li>
+{%~ /map %}
+{%~ /match %}
+</ul>
+
+{%~ /LayoutMain %}

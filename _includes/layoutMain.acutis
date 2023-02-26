@@ -1,0 +1,18 @@
+{% LayoutBase
+	metadata collections eleventy safeUrl
+	head=#%}<style>{% Include path="public/css/message-box.css" /%}</style>{%#
+%}
+<!-- Delete this message and the 'head' prop above to also remove the component CSS from the bundle -->
+<div class="message-box">
+	<ol>
+		<li>Edit the <code>_data/metadata.js</code> with your blog’s information.</li>
+		<li>(Optional) Edit <code>eleventy.config.js</code> with your <a href="https://www.11ty.dev/docs/config/">configuration preferences</a>.</li>
+		<li>Delete this message from <code>_includes/layouts_main.acutis</code>.</li>
+	</ol>
+	<p><em>This is an <a href="https://www.11ty.dev/">Eleventy project</a> created from the <a href="https://github.com/johnridesabike/eleventy-base-blog-acutis"><code>eleventy-base-blog-acutis</code> repo</a>.</em></p>
+</div>
+<!-- Stop deleting -->
+
+{{{ children }}}
+
+{% /LayoutBase %}

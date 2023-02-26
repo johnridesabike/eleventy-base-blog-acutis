@@ -1,0 +1,24 @@
+<ol
+	reversed
+	class="postlist"
+	style="counter-reset: start-from calc({{ %i length }} + 1)">
+{%~ map list with {data: {title, date, safeUrl: !url}} %}
+	<li
+		class="postlist-item
+		{%~ match safeUrl with !pageUrl %}
+			{%~ IfEqual vals=(url, pageUrl) %} postlist-item-active{% /IfEqual %}
+		{%~ with null %}{* Nothing *}{% /match %}">
+		<a href="{{ url }}" class="postlist-link">
+			{%~ match title with !title ~%} {{ title }}
+			{%~ with null ~%} <code>{{ url }}</code>
+			{%~ /match ~%}
+		</a>
+		{%~ match date with {fullMonth, year, htmlDate} %}
+		<time class="postlist-date" datetime="{{ htmlDate }}">
+			{{ fullMonth }} {{ year }}
+		</time>
+		{%~ /match %}
+	</li>
+{%~ with {data: {safeUrl: null}} %} {* Don't show posts without URLs *}
+{%~ /map %}
+</ol>

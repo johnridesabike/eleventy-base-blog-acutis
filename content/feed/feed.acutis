@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+{%~ match metadata with
+	{language, title, description, url: siteUrl, author: {name, email}} %}
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ language }}">
+	<title>{{ title }}</title>
+	<subtitle>{{ description }}</subtitle>
+	<link href="{{ permalink }}" rel="self"/>
+	<link href="{{ siteUrl }}"/>
+	{% match collections
+		with {blog: {list: [{data: {date: {dateRfc3339}}}, ..._]}} %}
+		<updated>{{ dateRfc3339 }}</updated>
+	{% with _ %}{* There are no posts *}{% /match %}
+	<id>{{ siteUrl }}</id>
+	<author>
+		<name>{{ name }}</name>
+		<email>{{ email }}</email>
+	</author>
+	{%~ match collections with {blog: {list}} %}
+	{%~ map list with
+		{templateContent, data: {safeUrl: !url, title, date: {dateRfc3339}}} %}
+	<entry>
+		<title>{{ title }}</title>
+		<link href="{% FullUrl base=siteUrl path=url /%}"/>
+		<updated>{{ dateRfc3339 }}</updated>
+		<id>{% FullUrl base=siteUrl path=url /%}</id>
+		<content type="html">{{ templateContent }}</content>
+	</entry>
+	{%~ with {data: {safeUrl: null}} %}{* Don't show pages with no URL. *}
+	{%~ /map %}
+	{%~ /match %}
+</feed>
+{%~ /match %}

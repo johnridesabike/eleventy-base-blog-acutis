@@ -3,9 +3,9 @@ const markdownItAnchor = require("markdown-it-anchor");
 
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
-const pluginBundle = require("@11ty/eleventy-plugin-bundle");
 const pluginNavigation = require("@11ty/eleventy-navigation");
-const { EleventyHtmlBasePlugin } = require("@11ty/eleventy");
+const acutisEleventy = require("acutis-lang/eleventy");
+const acutisComponents = require("./_includes/acutisComponents");
 
 module.exports = function(eleventyConfig) {
 	// Copy the contents of the `public` folder to the output folder
@@ -31,49 +31,14 @@ module.exports = function(eleventyConfig) {
 		preAttributes: { tabindex: 0 }
 	});
 	eleventyConfig.addPlugin(pluginNavigation);
-	eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
-	eleventyConfig.addPlugin(pluginBundle);
 
-	// Filters
-	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
-		// Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
-		return DateTime.fromJSDate(dateObj, { zone: zone || "utc" }).toFormat(format || "dd LLLL yyyy");
-	});
+	// Features to make your build faster (when you need them)
 
-	eleventyConfig.addFilter('htmlDateString', (dateObj) => {
-		// dateObj input: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
-		return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat('yyyy-LL-dd');
-	});
+	// If your passthrough copy gets heavy and cumbersome, add this line
+	// to emulate the file copy on the dev server. Learn more:
+	// https://www.11ty.dev/docs/copy/#emulate-passthrough-copy-during-serve
 
-	// Get the first `n` elements of a collection.
-	eleventyConfig.addFilter("head", (array, n) => {
-		if(!Array.isArray(array) || array.length === 0) {
-			return [];
-		}
-		if( n < 0 ) {
-			return array.slice(n);
-		}
-
-		return array.slice(0, n);
-	});
-
-	// Return the smallest number argument
-	eleventyConfig.addFilter("min", (...numbers) => {
-		return Math.min.apply(null, numbers);
-	});
-
-	// Return all the tags used in a collection
-	eleventyConfig.addFilter("getAllTags", collection => {
-		let tagSet = new Set();
-		for(let item of collection) {
-			(item.data.tags || []).forEach(tag => tagSet.add(tag));
-		}
-		return Array.from(tagSet);
-	});
-
-	eleventyConfig.addFilter("filterTagList", function filterTagList(tags) {
-		return (tags || []).filter(tag => ["all", "nav", "post", "posts"].indexOf(tag) === -1);
-	});
+	// eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
 
 	// Customize Markdown library settings:
 	eleventyConfig.amendLibrary("md", mdLib => {
@@ -89,13 +54,65 @@ module.exports = function(eleventyConfig) {
 		});
 	});
 
-	// Features to make your build faster (when you need them)
+	// Instead of using filters, we need to define collections.
 
-	// If your passthrough copy gets heavy and cumbersome, add this line
-	// to emulate the file copy on the dev server. Learn more:
-	// https://www.11ty.dev/docs/copy/#emulate-passthrough-copy-during-serve
+	// Get all post tags, sorted alphabetically.
+	eleventyConfig.addCollection("allTags", (collectionApi) => {
+		const tagSet = new Set();
+		collectionApi
+			.getAll()
+			.forEach((item) => {
+				(item.data.filteredTags || []).forEach((tag) => tagSet.add(tag))}
+			);
+		const arr = Array.from(tagSet);
+		arr.sort((a, b) => a.localeCompare(b));
+		return arr
+	});
 
-	// eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
+	// Create a collection of the last 3 posts for the front page.
+	eleventyConfig.addCollection("frontPage", (collectionApi) => {
+		const allPosts = collectionApi
+			.getFilteredByTag("posts")
+			.filter((x) => x.data.safeUrl)
+			.sort((a, b) => b.date - a.date);
+		const posts = allPosts.slice(0, 3);
+		const length = posts.length;
+		const remainder = allPosts.length - length;
+		return { list: posts, length, remainder };
+	});
+
+	// Derive a new collection from "posts" that sorts by descending date and adds
+	// previous and next links.
+	eleventyConfig.addCollection("blog", (collectionApi) => {
+		const posts = collectionApi
+			.getFilteredByTag("posts")
+			.filter((x) => x.data.safeUrl)
+			.sort((a, b) => b.date - a.date);
+		for (let i = 0; i < posts.length; i++) {
+			posts[i].data.next = posts[i - 1] || null;
+			posts[i].data.previous = posts[i + 1] || null;
+		}
+		return {
+			list: posts,
+			length: posts.length,
+		};
+	});
+
+	// This is a quick-and-easy way for us to use the eleventyNavigation metadata
+	// without the eleventyNavigation plugin itself. It does not support all of
+	// the eleventyNavigation features, like nesting.
+	eleventyConfig.addCollection("navigation", (collectionApi) =>
+		collectionApi
+			.getAll()
+			.filter((item) => "eleventyNavigation" in item.data)
+			.sort(
+				(a, b) =>
+					(a.data.eleventyNavigation.order || 0) -
+					(b.data.eleventyNavigation.order || 0)
+			)
+	);
+
+	eleventyConfig.addPlugin(acutisEleventy, { components: acutisComponents });
 
 	return {
 		// Control which files Eleventy will process
@@ -104,7 +121,9 @@ module.exports = function(eleventyConfig) {
 			"md",
 			"njk",
 			"html",
-			"liquid"
+			"liquid",
+			"11ty.js",
+			"acutis"
 		],
 
 		// Pre-process *.md files with: (default: `liquid`)

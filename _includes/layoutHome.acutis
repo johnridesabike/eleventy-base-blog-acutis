@@ -1,0 +1,5 @@
+{* This just passes the 'content' prop to LayoutMain's 'children' prop for cases
+	where that's more convenient.
+	In Acutis, 'children' is the default name of a component's content. Eleventy
+	uses 'content' instead. *}
+{% LayoutMain metadata collections eleventy safeUrl children=content / %}

@@ -1,0 +1,36 @@
+{% LayoutBase metadata collections eleventy safeUrl
+	head=#%}
+		<style>
+		/* Only include the syntax highlighter CSS on blog posts */
+		{% Include path="node_modules/prismjs/themes/prism-okaidia.css" / %}
+		{% Include path="public/css/prism-diff.css" / %}
+		</style>
+	{%#
+~%}
+<h1>{{ title }}</h1>
+
+<ul class="post-metadata">
+	{% match date with {day, fullMonth, year, htmlDate} %}
+	<li><time datetime="{{ htmlDate }}">{{ day }} {{ fullMonth }} {{ year }}</time></li>
+	{%~ map filteredTags with tag %}
+	<li>
+		<a href="/tags/{% Slugify %}{{ tag }}{% /Slugify %}" class="post-tag">
+			{{ tag }}
+		</a>
+	</li>
+	{%~ /map %}
+	{% /match %}
+</ul>
+
+{{{ content }}}
+
+<ul class="links-nextprev">
+	{% match previous with !{url, data: {title}} %}
+	<li>Previous: <a href="{{ url }}">{{ title }}</a></li>
+	{% with null %}{* Nothing *}{% /match %}
+	{% match next with !{url, data: {title}} %}
+	<li>Next: <a href="{{ url }}">{{ title }}</a></li>
+	{% with null %}{* Nothing *}{% /match %}
+</ul>
+
+{%~ /LayoutBase %}

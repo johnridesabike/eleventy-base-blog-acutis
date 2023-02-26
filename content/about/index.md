@@ -1,5 +1,5 @@
 ---
-layout: layouts/base.njk
+layout: layoutHome.acutis
 eleventyNavigation:
   key: About Me
   order: 3

@@ -1,0 +1,83 @@
+{* Interfaces are optional, but may be helpful to explicitly define which props
+	 a template may accept. *}
+{%~ interface
+	metadata = {language: string, title: string, description: string, url: string}
+	collections =
+		{navigation: [{data: {eleventyNavigation: {key: ?string}}, url: string}]}
+	eleventy = {generator: string}
+	safeUrl = ?string
+	title = ?string
+	description = ?string
+	head = string
+	children = string
+	/ ~%}
+<!doctype html>
+{% match metadata with
+		{language, title: metaTitle, description: metaDescription, url: siteUrl} %}
+<html lang="{{ language }}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{ title ? metaTitle }}</title>
+		<meta name="description" content="{{ description ? metaDescription }}">
+
+		{* Atom and JSON feeds included by default *}
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metaTitle }}">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="{{ metaTitle }}">
+
+		{* Uncomment this if you’d like folks to know that you used Eleventy to
+				build your site!  *}
+		{*
+		{% match eleventy with {generator} ~%}
+			<meta name="generator" content="{{ generator }}">
+		{%~ /match %}
+		*}
+
+		{* Render your CSS using Inlined CSS (for the fastest site performance in production) *}
+		<style>
+			* { box-sizing: border-box; }
+			{* Add the contents of a file to the page *}
+			{% Include path="public/css/index.css" / %}
+			{* Or add from node_modules *}
+			{* {% Include path="node_modules/prismjs/themes/prism-okaidia.css" / %} *}
+		</style>
+		{* Add additional HTML to the head through the 'head' prop. *}
+		{{{ head }}}
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">{{ metaTitle }}</a>
+
+			{* Read more about `eleventy-navigation` at https://www.11ty.dev/docs/plugins/navigation/ *}
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+				{%~ match collections with {navigation} %}
+				{%~ map navigation with {url, data: {eleventyNavigation: {key: title}}} %}
+					<li class="nav-item">
+						{% match safeUrl with !pageUrl %}
+						<a href="{{ url }}"{% IfEqual vals=(url, pageUrl) %} aria-current="page"{% /IfEqual %}>
+							{{ title ? url }}
+						</a>
+						{% with null %}{* Nothing *}{% /match %}
+					</li>
+				{%~ /map %}
+				{%~ /match %}
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			{{{ children }}}
+		</main>
+
+		<footer></footer>
+
+		{% match safeUrl with !path ~%}
+		<!-- Current page: {% FullUrl path base=siteUrl / %} -->
+		{%~ with null %}{* Nothing *}{% /match %}
+	</body>
+</html>
+{% /match %}

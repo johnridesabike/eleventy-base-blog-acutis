@@ -1,0 +1,9 @@
+{% LayoutMain metadata collections safeUrl eleventy ~%}
+
+<h1>Archive</h1>
+
+{% match collections with {blog: {list, length}} %}
+	{% PostsList list length safeUrl / %}
+{%~ /match %}
+
+{%~ /LayoutMain %}
