@@ -74,7 +74,7 @@ Or you can run [debug mode](https://www.11ty.dev/docs/debugging/) to see all the
 	- _0ms Total Blocking Time_
 - Local development live reload provided by [Eleventy Dev Server](https://www.11ty.dev/docs/dev-server/).
 - Content-driven [navigation menu](https://www.11ty.dev/docs/plugins/navigation/)
-- [Image optimization](https://www.11ty.dev/docs/plugins/image/) via the `{% image %}` shortcode.
+- [Image optimization](https://www.11ty.dev/docs/plugins/image/) via the `{% Image / %}` Acutis component.
 	- Zero-JavaScript output.
 	- Support for modern image formats automatically (e.g. AVIF and WebP)
 	- Prefers `<img>` markup if possible (single image format) but switches automatically to `<picture>` for multiple image formats.
@@ -83,7 +83,7 @@ Or you can run [debug mode](https://www.11ty.dev/docs/debugging/) to see all the
 	- Includes `loading="lazy"` for native lazy loading without JavaScript.
 	- Includes [`decoding="async"`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decoding)
 	- Images can be co-located with blog post files.
-	- View the [Image plugin source code](https://github.com/johnridesabike/eleventy-base-blog-acutis/blob/main/eleventy.config.images.js)
+	- View the [Image component source code](https://github.com/johnridesabike/eleventy-base-blog-acutis/blob/main/eleventy.config.acutisComponents.js)
 - Built-in [syntax highlighter](https://www.11ty.dev/docs/plugins/syntaxhighlight/) (zero-JavaScript output).
 - Blog Posts
 	- Draft posts: use `draft: true` to mark a blog post as a draft. Drafts are **only** included during `--serve`/`--watch` and are excluded from full builds. View the [Drafts plugin source code](https://github.com/johnridesabike/eleventy-base-blog-acutis/blob/main/eleventy.config.drafts.js).

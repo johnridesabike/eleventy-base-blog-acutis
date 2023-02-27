@@ -5,7 +5,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginNavigation = require("@11ty/eleventy-navigation");
 const acutisEleventy = require("acutis-lang/eleventy");
-const acutisComponents = require("./_includes/acutisComponents");
+const acutisComponents = require("./eleventy.config.acutisComponents.js");
 
 module.exports = function(eleventyConfig) {
 	// Copy the contents of the `public` folder to the output folder
@@ -23,7 +23,6 @@ module.exports = function(eleventyConfig) {
 
 	// App plugins
 	eleventyConfig.addPlugin(require("./eleventy.config.drafts.js"));
-	eleventyConfig.addPlugin(require("./eleventy.config.images.js"));
 
 	// Official plugins
 	eleventyConfig.addPlugin(pluginRss);
@@ -112,7 +111,9 @@ module.exports = function(eleventyConfig) {
 			)
 	);
 
-	eleventyConfig.addPlugin(acutisEleventy, { components: acutisComponents });
+	eleventyConfig.addPlugin(acutisEleventy, {
+		components: acutisComponents(eleventyConfig),
+	});
 
 	return {
 		// Control which files Eleventy will process
@@ -127,10 +128,10 @@ module.exports = function(eleventyConfig) {
 		],
 
 		// Pre-process *.md files with: (default: `liquid`)
-		markdownTemplateEngine: "njk",
+		markdownTemplateEngine: "acutis",
 
 		// Pre-process *.html files with: (default: `liquid`)
-		htmlTemplateEngine: "njk",
+		htmlTemplateEngine: "acutis",
 
 		// These are all optional:
 		dir: {
