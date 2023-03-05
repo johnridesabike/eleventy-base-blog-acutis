@@ -1,7 +1,7 @@
 {% LayoutBase metadata collections eleventy safeUrl
 	head=#%}
+		{* Only include the syntax highlighter CSS on blog posts *}
 		<style>
-		/* Only include the syntax highlighter CSS on blog posts */
 		{% Include path="node_modules/prismjs/themes/prism-okaidia.css" / %}
 		{% Include path="public/css/prism-diff.css" / %}
 		</style>
