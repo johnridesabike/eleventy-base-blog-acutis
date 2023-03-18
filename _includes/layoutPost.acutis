@@ -10,8 +10,11 @@
 <h1>{{ title }}</h1>
 
 <ul class="post-metadata">
-	{% match date with {day, fullMonth, year, htmlDate} %}
-	<li><time datetime="{{ htmlDate }}">{{ day }} {{ fullMonth }} {{ year }}</time></li>
+	<li>
+    <time datetime="{{ date.htmlDate }}">
+      {{ date.day }} {{ date.fullMonth }} {{ date.year }}
+    </time>
+  </li>
 	{%~ map filteredTags with tag %}
 	<li>
 		<a href="/tags/{% Slugify %}{{ tag }}{% /Slugify %}" class="post-tag">
@@ -19,7 +22,6 @@
 		</a>
 	</li>
 	{%~ /map %}
-	{% /match %}
 </ul>
 
 {{{ content }}}

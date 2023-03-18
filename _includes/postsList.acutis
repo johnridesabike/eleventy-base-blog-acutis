@@ -9,15 +9,13 @@
 			{%~ IfEqual vals=(url, pageUrl) %} postlist-item-active{% /IfEqual %}
 		{%~ with null %}{* Nothing *}{% /match %}">
 		<a href="{{ url }}" class="postlist-link">
-			{%~ match title with !title ~%} {{ title }}
+      {%~ match title with !title ~%} {{ title }}
 			{%~ with null ~%} <code>{{ url }}</code>
 			{%~ /match ~%}
 		</a>
-		{%~ match date with {fullMonth, year, htmlDate} %}
-		<time class="postlist-date" datetime="{{ htmlDate }}">
-			{{ fullMonth }} {{ year }}
+		<time class="postlist-date" datetime="{{ date.htmlDate }}">
+			{{ date.fullMonth }} {{ date.year }}
 		</time>
-		{%~ /match %}
 	</li>
 {%~ with {data: {safeUrl: null}} %} {* Don't show posts without URLs *}
 {%~ /map %}

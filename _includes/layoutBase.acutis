@@ -12,25 +12,21 @@
 	children = string
 	/ ~%}
 <!doctype html>
-{% match metadata with
-		{language, title: metaTitle, description: metaDescription, url: siteUrl} %}
-<html lang="{{ language }}">
+<html lang="{{ metadata.language }}">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>{{ title ? metaTitle }}</title>
-		<meta name="description" content="{{ description ? metaDescription }}">
+		<title>{{ title ? metadata.title }}</title>
+		<meta name="description" content="{{ description ? metadata.description }}">
 
 		{* Atom and JSON feeds included by default *}
-		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metaTitle }}">
-		<link rel="alternate" href="/feed/feed.json" type="application/json" title="{{ metaTitle }}">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="{{ metadata.title }}">
 
 		{* Uncomment this if you’d like folks to know that you used Eleventy to
 				build your site!  *}
 		{*
-		{% match eleventy with {generator} ~%}
-			<meta name="generator" content="{{ generator }}">
-		{%~ /match %}
+		<meta name="generator" content="{{ eleventy.generator }}">
 		*}
 
 		{* Render your CSS using Inlined CSS (for the fastest site performance in production) *}
@@ -48,14 +44,14 @@
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/" class="home-link">{{ metaTitle }}</a>
+			<a href="/" class="home-link">{{ metadata.title }}</a>
 
 			{* Read more about `eleventy-navigation` at https://www.11ty.dev/docs/plugins/navigation/ *}
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-				{%~ match collections with {navigation} %}
-				{%~ map navigation with {url, data: {eleventyNavigation: {key: title}}} %}
+				{%~ map collections.navigation
+            with {url, data: {eleventyNavigation: {key: title}}} %}
 					<li class="nav-item">
 						{% match safeUrl with !pageUrl %}
 						<a href="{{ url }}"{% IfEqual vals=(url, pageUrl) %} aria-current="page"{% /IfEqual %}>
@@ -64,7 +60,6 @@
 						{% with null %}{* Nothing *}{% /match %}
 					</li>
 				{%~ /map %}
-				{%~ /match %}
 				</ul>
 			</nav>
 		</header>
@@ -76,8 +71,7 @@
 		<footer></footer>
 
 		{% match safeUrl with !path ~%}
-		<!-- Current page: {% FullUrl path base=siteUrl / %} -->
+		<!-- Current page: {% FullUrl path base=metadata.url / %} -->
 		{%~ with null %}{* Nothing *}{% /match %}
 	</body>
 </html>
-{% /match %}

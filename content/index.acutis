@@ -19,12 +19,10 @@
 {*
 {* List every content page in the project *}
 <ul>
-	{%~ match collections with {all} %}
-	{%~ map all with {data: {safeUrl: !url}} %}
+	{%~ map collections.all with {data: {safeUrl: !url}} %}
 	<li><a href="{{ url }}"><code>{{ url }}</code></a></li>
 	{%~ with _ %}{* Don't show pages without URLs *}
 	{%~ /map %}
-	{%~ /match %}
 </ul>
 *}
 

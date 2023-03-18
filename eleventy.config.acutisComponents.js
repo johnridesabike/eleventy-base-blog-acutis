@@ -71,7 +71,7 @@ module.exports = (eleventyConfig) => [
 	Component.funAsync(
 		"IfEqual",
 		Ty.make([
-			["vals", Ty.tuple([Ty.string(), Ty.string()])],
+			["vals", Ty.tuple([Ty.unknown(), Ty.unknown()])],
 			["children", Ty.string()],
 		]),
 		async ({ vals, children }) => (vals[0] === vals[1] ? children : "")
