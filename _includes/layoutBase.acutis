@@ -10,7 +10,7 @@
 	description = ?string
 	head = string
 	children = string
-	/ ~%}
+	~%}
 <!doctype html>
 <html lang="{{ metadata.language }}">
 	<head>
