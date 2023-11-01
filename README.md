@@ -2,8 +2,6 @@
 
 A starter repository showing how to build a blog with the [Eleventy](https://www.11ty.dev/) site generator (using the [v2.0 release](https://www.11ty.dev/blog/eleventy-v2/)).
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f0881677-5b1b-44f7-b2c7-5b593860fa52/deploy-status)](https://app.netlify.com/sites/eleventy-base-blog-acutis/deploys)
-
 ## A note about this Acutis edition
 
 This is a fork of the official [eleventy-base-blog] repository which has been
@@ -26,35 +24,38 @@ this software is provided "as is" without warranty of any kind.
 
 ## Getting Started
 
-1. Clone this Repository
+* [Want a more generic/detailed getting started guide?](https://www.11ty.dev/docs/getting-started/)
+
+1. Make a directory and navigate to it:
+
+```
+mkdir my-blog-name
+cd my-blog-name
+```
+
+2. Clone this Repository
 
 ```
 git clone https://github.com/johnridesabike/eleventy-base-blog-acutis.git my-blog-name
 ```
 
-2. Navigate to the directory
+_Optional:_ Review `eleventy.config.js` and `_data/metadata.js` to configure the site’s options and data.
 
-```
-cd my-blog-name
-```
-
-3. Have a look at `eleventy.config.js` to see if you want to configure any Eleventy options differently.
-4. Install dependencies
+3. Install dependencies
 
 ```
 npm install
 ```
 
-5. Edit `_data/metadata.js` to change the site data.
-6. Run Eleventy
+4. Run Eleventy
 
-Generate a production-ready build:
+Generate a production-ready build to the `_site` folder:
 
 ```
 npx @11ty/eleventy
 ```
 
-Or build and host locally on a local development server:
+Or build and host on a local development server:
 
 ```
 npx @11ty/eleventy --serve
@@ -111,7 +112,7 @@ Deploy this Eleventy site in just a few clicks on these services:
 ### Implementation Notes
 
 - `content/about/index.md` is an example of a content page.
-- `content/blog/` has the blog posts but really they can live in any directory. They need only the `post` tag to be included in the blog posts [collection](https://www.11ty.dev/docs/collections/).
+- `content/blog/` has the blog posts but really they can live in any directory. They need only the `posts` tag to be included in the blog posts [collection](https://www.11ty.dev/docs/collections/).
 - Use the `eleventyNavigation` key (via the [Eleventy Navigation plugin](https://www.11ty.dev/docs/plugins/navigation/)) in your front matter to add a template to the top level site navigation. This is in use on `content/index.11tydata.js` and `content/about/index.md`.
 - Content can be in _any template format_ (blog posts needn’t exclusively be markdown, for example). Configure your project’s supported templates in `eleventy.config.js` -> `templateFormats`.
 - The `public` folder in your input directory will be copied to the output folder (via `addPassthroughCopy` in the `eleventy.config.js` file). This means `./public/css/*` will live at `./_site/css/*` after your build completes.
@@ -123,4 +124,3 @@ Deploy this Eleventy site in just a few clicks on these services:
 	- `_includes/layoutHome.acutis`: the home page template (wrapped into `layoutBase.acutis`)
 	- `_includes/layoutPost.acutis`: the blog post template (wrapped into `layoutBase.acutis`)
 - `_includes/postsList.acutis` is an Acutis template and is a reusable component used to display a list of all the posts. `content/index.acutis` has an example of how to use it.
-

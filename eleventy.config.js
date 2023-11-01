@@ -1,4 +1,3 @@
-const { DateTime } = require("luxon");
 const markdownItAnchor = require("markdown-it-anchor");
 
 const pluginRss = require("@11ty/eleventy-plugin-rss");
@@ -6,6 +5,8 @@ const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginNavigation = require("@11ty/eleventy-navigation");
 const acutisEleventy = require("acutis-lang/eleventy");
 const acutisComponents = require("./eleventy.config.acutisComponents.js");
+
+const pluginDrafts = require("./eleventy.config.drafts.js");
 
 module.exports = function(eleventyConfig) {
 	// Copy the contents of the `public` folder to the output folder
@@ -22,7 +23,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addWatchTarget("content/**/*.{svg,webp,png,jpeg}");
 
 	// App plugins
-	eleventyConfig.addPlugin(require("./eleventy.config.drafts.js"));
+	eleventyConfig.addPlugin(pluginDrafts);
 
 	// Official plugins
 	eleventyConfig.addPlugin(pluginRss);
@@ -135,7 +136,7 @@ module.exports = function(eleventyConfig) {
 
 		// These are all optional:
 		dir: {
-			input: "content",         // default: "."
+			input: "content",          // default: "."
 			includes: "../_includes",  // default: "_includes"
 			data: "../_data",          // default: "_data"
 			output: "_site"
