@@ -5,8 +5,8 @@
 <ul>
 {%~ map collections.allTags with tag %}
 	<li>
-		<a href="/tags/{% Slugify %}{{ tag }}{% /Slugify %}" class="post-tag">
-			{{ tag }}
+		<a href="/tags/{% Slugify %}{% tag %}{% /Slugify %}" class="post-tag">
+			{% tag %}
 		</a>
 	</li>
 {%~ /map %}

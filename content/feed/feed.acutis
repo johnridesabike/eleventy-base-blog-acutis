@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ metadata.language }}">
-	<title>{{ metadata.title }}</title>
-	<subtitle>{{ metadata.description }}</subtitle>
-	<link href="{{ permalink }}" rel="self"/>
-	<link href="{{ metadata.url }}"/>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{% metadata.language %}">
+	<title>{% metadata.title %}</title>
+	<subtitle>{% metadata.description %}</subtitle>
+	<link href="{% permalink %}" rel="self"/>
+	<link href="{% metadata.url %}"/>
 	{% match collections
 		with {blog: {list: [{data: {date: {dateRfc3339}}}, ..._]}} %}
-		<updated>{{ dateRfc3339 }}</updated>
+		<updated>{% dateRfc3339 %}</updated>
 	{% with _ %}{* There are no posts *}{% /match %}
-	<id>{{ metadata.url }}</id>
+	<id>{% metadata.url %}</id>
 	<author>
-		<name>{{ metadata.author.name }}</name>
-		<email>{{ metadata.author.email }}</email>
+		<name>{% metadata.author.name %}</name>
+		<email>{% metadata.author.email %}</email>
 	</author>
 	{%~ map collections.blog.list with
 		{templateContent, data: {safeUrl: !url, title, date: {dateRfc3339}}} %}
 	<entry>
-		<title>{{ title }}</title>
+		<title>{% title %}</title>
 		<link href="{% FullUrl base=metadata.url path=url /%}"/>
-		<updated>{{ dateRfc3339 }}</updated>
+		<updated>{% dateRfc3339 %}</updated>
 		<id>{% FullUrl base=metadata.url path=url /%}</id>
-		<content type="html">{{ templateContent }}</content>
+		<content type="html">{% templateContent %}</content>
 	</entry>
 	{%~ with {data: {safeUrl: null}} %}{* Don't show pages with no URL. *}
 	{%~ /map %}

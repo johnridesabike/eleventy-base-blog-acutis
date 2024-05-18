@@ -13,6 +13,6 @@
 </div>
 <!-- Stop deleting -->
 
-{{{ children }}}
+{{% children %}}
 
 {% /LayoutBase %}

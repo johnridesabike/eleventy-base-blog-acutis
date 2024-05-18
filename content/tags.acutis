@@ -1,6 +1,6 @@
 {% LayoutMain metadata collections safeUrl eleventy ~%}
 
-<h1>Tagged “{{ tag }}”</h1>
+<h1>Tagged “{% tag %}”</h1>
 
 {% PostsList list length safeUrl / %}
 

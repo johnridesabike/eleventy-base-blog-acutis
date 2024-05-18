@@ -7,31 +7,31 @@
 		</style>
 	{%#
 ~%}
-<h1>{{ title }}</h1>
+<h1>{% title %}</h1>
 
 <ul class="post-metadata">
 	<li>
-    <time datetime="{{ date.htmlDate }}">
-      {{ date.day }} {{ date.fullMonth }} {{ date.year }}
+    <time datetime="{% date.htmlDate %}">
+      {% date.day %} {% date.fullMonth %} {% date.year %}
     </time>
   </li>
 	{%~ map filteredTags with tag %}
 	<li>
-		<a href="/tags/{% Slugify %}{{ tag }}{% /Slugify %}" class="post-tag">
-			{{ tag }}
+		<a href="/tags/{% Slugify %}{% tag %}{% /Slugify %}" class="post-tag">
+			{% tag %}
 		</a>
 	</li>
 	{%~ /map %}
 </ul>
 
-{{{ content }}}
+{{% content %}}
 
 <ul class="links-nextprev">
 	{% match previous with !{url, data: {title}} %}
-	<li>Previous: <a href="{{ url }}">{{ title }}</a></li>
+	<li>Previous: <a href="{% url %}">{% title %}</a></li>
 	{% with null %}{* Nothing *}{% /match %}
 	{% match next with !{url, data: {title}} %}
-	<li>Next: <a href="{{ url }}">{{ title }}</a></li>
+	<li>Next: <a href="{% url %}">{% title %}</a></li>
 	{% with null %}{* Nothing *}{% /match %}
 </ul>
 

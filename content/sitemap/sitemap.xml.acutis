@@ -3,7 +3,7 @@
 {%~ map collections.all with {url, data: {date: {htmlDate}}} %}
 	<url>
 		<loc>{% FullUrl path=url base=metadata.url / %}</loc>
-		<lastmod>{{ htmlDate }}</lastmod>
+		<lastmod>{% htmlDate %}</lastmod>
 	</url>
 {%~ /map %}
 </urlset>

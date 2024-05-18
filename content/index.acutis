@@ -1,7 +1,7 @@
 {% LayoutMain metadata collections safeUrl eleventy ~%}
 {% match collections with {frontPage: {list, length, remainder}} %}
 <h1>
-	Latest {{ %i length }} Post{% match length with 1 %}{% with _ %}s{% /match %}
+	Latest {% %i length %} Post{% match length with 1 %}{% with _ %}s{% /match %}
 </h1>
 
 {% PostsList list length safeUrl /%}
@@ -9,7 +9,7 @@
 {% match remainder with 0 %} {* Don't show anything *}
 {% with remainder %}
 <p>
-	{{ %i remainder }}
+	{% %i remainder %}
 	more post{% match remainder with 0 %}{% with _ %}s{% /match %}
 	can be found in <a href="/blog/">the archive</a>.
 </p>
@@ -20,7 +20,7 @@
 {* List every content page in the project *}
 <ul>
 	{%~ map collections.all with {data: {safeUrl: !url}} %}
-	<li><a href="{{ url }}"><code>{{ url }}</code></a></li>
+	<li><a href="{% url %}"><code>{% url %}</code></a></li>
 	{%~ with _ %}{* Don't show pages without URLs *}
 	{%~ /map %}
 </ul>
